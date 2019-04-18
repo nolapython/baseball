@@ -1,2 +1,0 @@
-def dice():
-    pass
