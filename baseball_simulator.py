@@ -1,5 +1,5 @@
 """
-Title: baseball-simulator
+Title: baseball_simulator
 Author: Kevin Tracey McGee (DGNSREKT)
 Date: 4/17/2019
 Description: Baseball + Yahtzee: A baseball simulator which uses
@@ -20,7 +20,7 @@ def dice():
     Arguments:
         None
     Returns:
-        Result of the dice roll. -- tuple(int, int)
+        Result of the dice roll. -- [int, int]
     """
     roll = (random.randint(1, 6), random.randint(1, 6))
     return sorted(roll)
