@@ -14,6 +14,9 @@ simulated games.
 import random
 from collections import deque
 
+import plotly.offline as py
+import plotly.figure_factory as ff
+
 
 def dice():
     """
@@ -29,20 +32,151 @@ def dice():
 
 class Runner:
     """
-    Description:
-    Arguments:
-        None
-    Returns:
+    Description: Simulates a runner moving through bases.
     """
 
     def __init__(self):
-        self.current_base = 0
+        self.base = 0
 
-    def run(self):
-        pass
+    def run_to_next_base(self):
+        self.base += 1
 
+    @property
     def has_scored(self):
-        pass
+        if self.base > 3:
+            return True
+        return False
+
+    def __repr__(self):
+        return f"< RUNNER > BASE:{self.base}"
+
+
+class ActionMap:
+    @classmethod
+    def map_action_to_dice(cls, roll):
+        map = {
+            "11": cls.double,
+            "12": cls.single,
+            "13": cls.single,
+            "14": cls.single,
+            "15": cls.base_on_error,
+            "16": cls.base_on_balls,
+            "22": cls.strike,
+            "23": cls.strike,
+            "24": cls.strike,
+            "25": cls.strike,
+            "26": cls.foul_out,
+            "33": cls.out_at_first,
+            "34": cls.out_at_first,
+            "35": cls.out_at_first,
+            "36": cls.out_at_first,
+            "44": cls.fly_out,
+            "45": cls.fly_out,
+            "46": cls.fly_out,
+            "55": cls.double_play,
+            "56": cls.triple,
+            "66": cls.home_run,
+        }
+        return map[str(roll[0]) + str(roll[1])]
+
+    @classmethod
+    def single(cls, state):
+        new_runner = Runner()
+        state.add_runner_to_field(new_runner)
+        for runner in state.field:
+            runner.run_to_next_base()
+        if runner.has_scored:
+            state.remove_runner_from_field_after_scoring()
+            state.score += 1
+
+    @classmethod
+    def double(cls, state):
+        for _ in range(2):
+            cls.single(state)
+
+    @classmethod
+    def base_on_error(cls, state):
+        cls.single(state)
+
+    @classmethod
+    def base_on_balls(cls, state):
+        cls.single(state)
+
+    @classmethod
+    def strike(cls, state):
+        state.strikes += 1
+        if state.strikes > 2:
+            state.strikes = 0
+            state.outs += 1
+
+    @classmethod
+    def foul_out(cls, state):
+        state.outs += 1
+
+    @classmethod
+    def out_at_first(cls, state):
+        state.outs += 1
+
+    @classmethod
+    def fly_out(cls, state):
+        state.outs += 1
+
+    @classmethod
+    def double_play(cls, state):
+        state.outs += 2
+        state.remove_runner_from_field_after_out()
+
+    @classmethod
+    def triple(cls, state):
+        for _ in range(3):
+            cls.single(state)
+
+    @classmethod
+    def home_run(cls, state):
+        for _ in range(4):
+            cls.single(state)
+
+
+class GameState:
+    def __init__(self):
+        self.field = deque()
+        self.score = 0
+        self.strikes = 0
+        self.outs = 0
+        self.plays = 0
+
+    def add_runner_to_field(self, runner):
+        self.field.appendleft(runner)
+
+    def remove_runner_from_field_after_scoring(self):
+        if len(self.field) > 0:
+            self.field.pop()
+
+    def remove_runner_from_field_after_out(self):
+        if len(self.field) > 0:
+            self.field.popleft()
+
+    @property
+    def is_done(self):
+        """
+        Description:
+        Arguments:
+            None
+        Returns:
+        """
+        if self.outs >= 54:
+            return True
+        return False
+
+    def __repr__(self):
+        repr_str = "--GAME-STATE--\n"
+        repr_str += f"RUNNERS: {list(self.field)}\n"
+        repr_str += f"SCORE: {self.score}\n"
+        repr_str += f"INNINGS: {self.innings}\n"
+        repr_str += f"STRIKES: {self.strikes}\n"
+        repr_str += f"OUTS: {self.outs}\n"
+        repr_str += f"PLAYS: {self.plays}\n"
+        return repr_str
 
 
 class BaseballSimulator:
@@ -54,35 +188,61 @@ class BaseballSimulator:
     """
 
     def __init__(self):
-        self.field = deque()
-        self.innings = 0
-        self.strikes = 0
-        self.outs = 0
-        self.plays = 0
+        self.state = GameState()
 
-    def map_dice_action(self, dice):
+    def step(self, dice_roll, render=False):
         """
         Description:
         Arguments:
             None
         Returns:
         """
-        pass
+        executable_action = ActionMap.map_action_to_dice(dice_roll)
+        executable_action(self.state)
+        self.state.plays += 1
+        if render:
+            print(self.state)
+        return self.state, self.state.is_done
 
-    def step(self, action):
-        """
-        Description:
-        Arguments:
-            None
-        Returns:
-        """
-        pass
 
-    def done(self):
-        """
-        Description:
-        Arguments:
-            None
-        Returns:
-        """
-        pass
+def compute_average(list_of_scores):
+    return sum(list_of_scores) / len(list_of_scores)
+
+
+def render_plot(scores):
+    hist_data = [scores]
+    group_labels = ["Distribution of runs"]
+
+    fig = ff.create_distplot(hist_data, group_labels)
+    py.plot(fig, filename="chart.html")
+
+
+def simulate_games(number_of_simulations):
+    final_scores = []
+    final_outs = []
+    final_plays = []
+    for _ in range(number_of_simulations):
+        print(".", flush=True, end="")
+        simulator = BaseballSimulator()
+        while True:
+            roll = dice()
+            state, done = simulator.step(roll)
+            if done:
+                final_scores.append(state.score)
+                final_outs.append(state.outs)
+                final_plays.append(state.plays)
+                break
+
+    average_scores = compute_average(final_scores)
+    average_outs = compute_average(final_outs)
+    average_plays = compute_average(final_plays)
+
+    print()
+    print("AVERAGE SCORES:", average_scores)
+    print("AVERAGE OUTS:", average_outs)
+    print("AVERAGE PLAYS:", average_plays)
+    render_plot(final_scores)
+
+
+if __name__ == "__main__":
+    simulate_games(1000)
