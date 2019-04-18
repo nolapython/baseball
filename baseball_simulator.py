@@ -16,7 +16,7 @@ import random
 
 def dice():
     """
-    Description: Simulate rolling 2 standerd 6 sided dice.
+    Description: Simulate rolling 2 standard 6 sided dice.
     Arguments:
         None
     Returns:
