@@ -52,6 +52,8 @@ class Runner:
 
 
 class ActionMap:
+    """Provides a map of all the functions needed to simulate a game of baseball."""
+
     @classmethod
     def map_dice_roll_to_action(cls, roll):
         """
@@ -96,12 +98,16 @@ class ActionMap:
         If the Runner has scored the Runner is removed from the field and the scores is increased.
         Args: GameState Object.
         """
+        scored = False
         state.strikes = 0
         new_runner = Runner()
         state.add_runner_to_field(new_runner)
+
         for runner in state.field:
             runner.run_to_next_base()
-        if runner.has_scored:
+            if runner.has_scored:
+                scored = True
+        if scored:
             state.remove_runner_from_field_after_scoring()
             state.score += 1
 
