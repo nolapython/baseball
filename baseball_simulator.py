@@ -57,9 +57,12 @@ class ActionMap:
     @classmethod
     def map_dice_roll_to_action(cls, roll):
         """
+        Converts the roll to a string then matches the roll with the proper method.
         Args: roll [int, int] - A dice roll.
         Returns: function which simulates an action in a baseball game.
         """
+        roll_to_str = str(roll[0]) + str(roll[1])  # converts [1, 1] to "11"
+
         action_map = {
             "11": cls.double,
             "12": cls.single,
@@ -83,7 +86,6 @@ class ActionMap:
             "56": cls.triple,
             "66": cls.home_run,
         }
-        roll_to_str = str(roll[0]) + str(roll[1])  # converts [1, 1] to "11"
         return action_map[roll_to_str]
 
     @classmethod
