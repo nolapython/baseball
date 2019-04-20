@@ -9,3 +9,9 @@ In this game, the batter's performance is determined strictly by chance. A routi
 
 The Game_Status_Board is a dictionary that contains details of the situation. This includes the inning, whether top or bottom, number of outs, what players are on what bases, scores.
 
+TODO:
+Doc's
+Test's
+
+FEATURE IDEAS:
+Web frontend in flask.
