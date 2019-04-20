@@ -20,7 +20,7 @@ import plotly.figure_factory as ff
 
 def dice():
     """
-    Simulate rolling 2 standard 6 sided dice.
+    Simulates rolling 2 standard 6 sided dice.
     Returns: [int, int] Returns the result of a dice roll
     """
     roll = (random.randint(1, 6), random.randint(1, 6))
@@ -28,9 +28,7 @@ def dice():
 
 
 class Runner:
-    """
-    Simulates a player who hit that ball and is running through the bases.
-    """
+    """Simulates a player who hit that ball and is running through the bases."""
 
     def __init__(self):
         self.base = 0
