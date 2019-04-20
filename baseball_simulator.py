@@ -140,7 +140,6 @@ class ActionMap:
         """
         state.strikes += 1
         if state.strikes > 2:
-            # FIXME: Stikes are not updated if the player hits the ball on the 2nd try.
             state.strikes = 0
             state.outs += 1
 
