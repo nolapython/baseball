@@ -304,14 +304,16 @@ def simulate_games(number_of_simulations):
                 final_plays.append(state.plays)
                 break
 
-    # average_scores = compute_average(final_scores)
-    # average_outs = compute_average(final_outs)
-    # average_plays = compute_average(final_plays)
-
     return final_scores, final_outs, final_plays
 
 
 if __name__ == "__main__":
     n = 1000
     scores, outs, plays = simulate_games(n)
+    average_scores = compute_average(final_scores)
+    average_outs = compute_average(final_outs)
+    average_plays = compute_average(final_plays)
+    print("AVERAGE SCORE:", average_scores)
+    print("AVERAGE OUTS:", average_outs)
+    print("AVERAGE PLAYS:", average_plays)
     render_plot(scores)
