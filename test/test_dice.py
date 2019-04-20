@@ -11,7 +11,7 @@ import sys
 import random
 import pytest
 
-# imported to changes to the correct directory for testing
+# Used to change to the correct directory to avoid import errors.
 FILEPATH = Path(__file__).parent.parent
 sys.path.insert(0, FILEPATH)
 
@@ -22,12 +22,9 @@ from baseball_simulator import dice  # pylint: disable=wrong-import-position
 def roll_dice_fixture():
     """
     Description: Dice rolling fixture.
-    Arguments:
-        None
-    Returns:
-        10 samples from the dice function appended to a list. -- [(int, int)]
+    Returns: 10 samples from the dice function appended to a list. -- [(int, int)]
     """
-    random.seed(1)  # Used to make sure the resutls are deterministic.
+    random.seed(1)  # Used to make sure the results are deterministic.
     samples = []
     for _ in range(10):
         single_sample = dice()
@@ -39,10 +36,6 @@ def test_dice_function_returns_list(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
     """
     Description: Test the dice function returns a list.
-    Arguments:
-        None
-    Returns:
-        None
     """
     samples = roll_dice_fixture
     for sample in samples:
@@ -52,11 +45,7 @@ def test_dice_function_returns_list(roll_dice_fixture):
 def test_each_dice_returns_int(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
     """
-    Description: Test each dice sample is of type int.
-    Arguments:
-        None
-    Returns:
-        None
+    Description: Test each dice sample is type int.
     """
     samples = roll_dice_fixture
     for sample in samples:
@@ -68,10 +57,6 @@ def test_each_dice_roll_greater_than_zero(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
     """
     Description: Test each dice sample is greater than zero.
-    Arguments:
-        None
-    Returns:
-        None
     """
     samples = roll_dice_fixture
     for sample in samples:
@@ -84,10 +69,6 @@ def test_each_dice_roll_less_than_or_equal_to_six(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
     """
     Description: Test each dice roll is less than or equal to six.
-    Arguments:
-        None
-    Returns:
-        None
     """
     samples = roll_dice_fixture
     for sample in samples:
@@ -100,10 +81,6 @@ def test_the_dice_is_sorted(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
     """
     Description: Test dice output is sorted.
-    Arguments:
-        None
-    Returns:
-        None
     """
     samples = roll_dice_fixture
     for sample in samples:
