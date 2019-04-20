@@ -21,7 +21,7 @@ from baseball_simulator import dice  # pylint: disable=wrong-import-position
 @pytest.fixture
 def roll_dice_fixture():
     """
-    Description: Dice rolling fixture.
+    Dice rolling fixture.
     Returns: 10 samples from the dice function appended to a list. -- [(int, int)]
     """
     random.seed(1)  # Used to make sure the results are deterministic.
@@ -34,9 +34,7 @@ def roll_dice_fixture():
 
 def test_dice_function_returns_list(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
-    """
-    Description: Test the dice function returns a list.
-    """
+    """Test the dice function returns a list."""
     samples = roll_dice_fixture
     for sample in samples:
         assert isinstance(sample, list)
@@ -44,9 +42,7 @@ def test_dice_function_returns_list(roll_dice_fixture):
 
 def test_each_dice_returns_int(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
-    """
-    Description: Test each dice sample is type int.
-    """
+    """Test each dice sample is type int."""
     samples = roll_dice_fixture
     for sample in samples:
         assert isinstance(sample[0], int)
@@ -55,9 +51,7 @@ def test_each_dice_returns_int(roll_dice_fixture):
 
 def test_each_dice_roll_greater_than_zero(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
-    """
-    Description: Test each dice sample is greater than zero.
-    """
+    """Test each dice sample is greater than zero."""
     samples = roll_dice_fixture
     for sample in samples:
         _dice, _dice2 = sample
@@ -67,9 +61,7 @@ def test_each_dice_roll_greater_than_zero(roll_dice_fixture):
 
 def test_each_dice_roll_less_than_or_equal_to_six(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
-    """
-    Description: Test each dice roll is less than or equal to six.
-    """
+    """Test each dice roll is less than or equal to six."""
     samples = roll_dice_fixture
     for sample in samples:
         _dice, _dice2 = sample
@@ -79,9 +71,7 @@ def test_each_dice_roll_less_than_or_equal_to_six(roll_dice_fixture):
 
 def test_the_dice_is_sorted(roll_dice_fixture):
     # pylint: disable=redefined-outer-name
-    """
-    Description: Test dice output is sorted.
-    """
+    """Test dice output is sorted."""
     samples = roll_dice_fixture
     for sample in samples:
         _dice, _dice2 = sample
