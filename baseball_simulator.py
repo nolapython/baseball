@@ -29,17 +29,22 @@ def dice():
 
 class Runner:
     """
-    Description: Simulates a runner moving through bases.
+    Simulates a player who hit that ball and is running through the bases.
     """
 
     def __init__(self):
         self.base = 0
 
     def run_to_next_base(self):
+        """Moves the player to the next base."""
         self.base += 1
 
     @property
     def has_scored(self):
+        """
+        Checks if the player has scored.
+        Returns: True if player has scored.
+        """
         if self.base > 3:
             return True
         return False
