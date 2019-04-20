@@ -53,8 +53,12 @@ class Runner:
 
 class ActionMap:
     @classmethod
-    def map_action_to_dice(cls, roll):
-        map = {
+    def map_dice_roll_to_action(cls, roll):
+        """
+        Args: roll [int, int] - A dice roll.
+        Returns: function which simulates an action in a baseball game.
+        """
+        action_map = {
             "11": cls.double,
             "12": cls.single,
             "13": cls.single,
@@ -77,7 +81,8 @@ class ActionMap:
             "56": cls.triple,
             "66": cls.home_run,
         }
-        return map[str(roll[0]) + str(roll[1])]
+        roll_to_str = str(roll[0]) + str(roll[1])  # converts [1, 1] to "11"
+        return action_map[roll_to_str]
 
     @classmethod
     def single(cls, state):
@@ -197,7 +202,7 @@ class BaseballSimulator:
             None
         Returns:
         """
-        executable_action = ActionMap.map_action_to_dice(dice_roll)
+        executable_action = ActionMap.map_dice_roll_to_action(dice_roll)
         executable_action(self.state)
         self.state.plays += 1
         if render:
