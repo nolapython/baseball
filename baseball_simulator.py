@@ -310,9 +310,10 @@ def simulate_games(number_of_simulations):
 if __name__ == "__main__":
     n = 1000
     scores, outs, plays = simulate_games(n)
-    average_scores = compute_average(final_scores)
-    average_outs = compute_average(final_outs)
-    average_plays = compute_average(final_plays)
+    average_scores = compute_average(scores)
+    average_outs = compute_average(outs)
+    average_plays = compute_average(plays)
+    print()
     print("AVERAGE SCORE:", average_scores)
     print("AVERAGE OUTS:", average_outs)
     print("AVERAGE PLAYS:", average_plays)
