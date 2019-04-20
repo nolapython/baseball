@@ -28,7 +28,7 @@ def dice():
 
 
 class Runner:
-    """Simulates a player who hit that ball and is running through the bases."""
+    """Simulates a player hitting the ball and advancing through the bases."""
 
     def __init__(self):
         self.base = 0
