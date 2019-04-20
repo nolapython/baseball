@@ -88,13 +88,15 @@ class ActionMap:
     def single(cls, state):
         """
         Simulates the player hitting the ball and advancing one base.
-        Creates a new Runner.
+        Sets the strikes to 0.
+        Creates a new Runner Object.
         Appends the new Runner to the GameState.field.
         Iterates through each Runner and updates the base position.
         Checks if the Runner has reached the home plate.
         If the Runner has scored the Runner is removed from the field and the scores is increased.
         Args: GameState Object.
         """
+        state.strikes = 0
         new_runner = Runner()
         state.add_runner_to_field(new_runner)
         for runner in state.field:
