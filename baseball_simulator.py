@@ -86,6 +86,15 @@ class ActionMap:
 
     @classmethod
     def single(cls, state):
+        """
+        Simulates the player hitting the ball and advancing one base.
+        Creates a new Runner.
+        Appends the new Runner to the GameState.field.
+        Iterates through each Runner and updates the base position.
+        Checks if the Runner has reached the home plate.
+        If the Runner has scored the Runner is removed from the field and the scores is increased.
+        Args: GameState Object.
+        """
         new_runner = Runner()
         state.add_runner_to_field(new_runner)
         for runner in state.field:
@@ -96,48 +105,97 @@ class ActionMap:
 
     @classmethod
     def double(cls, state):
+        """
+        Runs the single function twice simulating a double.
+        Args: GameState Object.
+        """
         for _ in range(2):
             cls.single(state)
 
     @classmethod
     def base_on_error(cls, state):
+        """
+        Runs the single function simulating a base on error.
+        Args: GameState Object.
+        """
         cls.single(state)
 
     @classmethod
     def base_on_balls(cls, state):
+        """
+        Runs the single function simulating a base on balls.
+        Args: GameState Object.
+        """
         cls.single(state)
 
     @classmethod
     def strike(cls, state):
+        """
+        Simulates the player at bat missing the ball.
+        GameStates.strikes is increased by 1.
+        If the player has 3 strikes. GameState.outs is increased by 1.
+        Args: GameState Object.
+        """
         state.strikes += 1
         if state.strikes > 2:
+            # FIXME: Stikes are not updated if the player hits the ball on the 2nd try.
             state.strikes = 0
             state.outs += 1
 
     @classmethod
     def foul_out(cls, state):
+        """
+        Simulates the player at bat fouling out.
+        GameState.outs is increased by 1.
+        Args: GameState Object
+        """
+
         state.outs += 1
 
     @classmethod
     def out_at_first(cls, state):
+        """
+        Simulates the player getting taken out at first.
+        GameState.outs is increased by 1.
+        Args: GameState Object
+        """
         state.outs += 1
 
     @classmethod
     def fly_out(cls, state):
+        """
+        Simulates a flyout.
+        GameState.outs is increased by 1.
+        Args: GameState Object
+        """
         state.outs += 1
 
     @classmethod
     def double_play(cls, state):
+        """
+        Simulates the defense catching the ball and throwing it too first.
+        GameState.outs is increased by 2.
+        The last runner is removed from the field.
+        Args: GameState Object
+        """
         state.outs += 2
         state.remove_runner_from_field_after_out()
 
     @classmethod
     def triple(cls, state):
+        """
+        Runs the single function three times simulating a triple.
+        Args: GameState Object.
+        """
         for _ in range(3):
             cls.single(state)
 
     @classmethod
     def home_run(cls, state):
+        """
+        Runs the single function four times simulating a home run.
+        Args: GameState Object.
+        """
         for _ in range(4):
             cls.single(state)
 
