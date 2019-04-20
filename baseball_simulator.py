@@ -34,13 +34,13 @@ class Runner:
         self.base = 0
 
     def run_to_next_base(self):
-        """Moves the player to the next base."""
+        """Advances the player to the next base."""
         self.base += 1
 
     @property
     def has_scored(self):
         """
-        Checks if the player has scored.
+        Checks if the runner has scored.
         Returns: True if player has scored.
         """
         if self.base > 3:
