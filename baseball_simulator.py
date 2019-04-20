@@ -98,6 +98,7 @@ class ActionMap:
         If the Runner has scored the Runner is removed from the field and the scores is increased.
         Args: GameState Object.
         """
+        # FIXME: EVERY THREE OUTS THE FIELD SHOULD BE CLEARED.
         scored = False
         state.strikes = 0
         new_runner = Runner()
