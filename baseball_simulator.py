@@ -20,11 +20,8 @@ import plotly.figure_factory as ff
 
 def dice():
     """
-    Description: Simulate rolling 2 standard 6 sided dice.
-    Arguments:
-        None
-    Returns:
-        Result of the dice roll. -- [int, int]
+    Simulate rolling 2 standard 6 sided dice.
+    Returns: [int, int] Returns the result of a dice roll
     """
     roll = (random.randint(1, 6), random.randint(1, 6))
     return sorted(roll)
@@ -211,9 +208,10 @@ def compute_average(list_of_scores):
 
 def render_plot(scores):
     hist_data = [scores]
-    group_labels = ["Distribution of runs"]
+    group_labels = ["RUNS per GAME"]
 
-    fig = ff.create_distplot(hist_data, group_labels)
+    fig = ff.create_distplot(hist_data, group_labels, show_rug=False)
+    fig["layout"].update(title="Distribution of runs from nine inning games.")
     py.plot(fig, filename="chart.html")
 
 
@@ -233,16 +231,14 @@ def simulate_games(number_of_simulations):
                 final_plays.append(state.plays)
                 break
 
-    average_scores = compute_average(final_scores)
-    average_outs = compute_average(final_outs)
-    average_plays = compute_average(final_plays)
+    # average_scores = compute_average(final_scores)
+    # average_outs = compute_average(final_outs)
+    # average_plays = compute_average(final_plays)
 
-    print()
-    print("AVERAGE SCORES:", average_scores)
-    print("AVERAGE OUTS:", average_outs)
-    print("AVERAGE PLAYS:", average_plays)
-    render_plot(final_scores)
+    return final_scores, final_outs, final_plays
 
 
 if __name__ == "__main__":
-    simulate_games(1000)
+    n = 1000
+    scores, outs, plays = simulate_games(n)
+    render_plot(scores)
