@@ -242,7 +242,6 @@ class GameState:
         repr_str = "--GAME-STATE--\n"
         repr_str += f"RUNNERS: {list(self.field)}\n"
         repr_str += f"SCORE: {self.score}\n"
-        repr_str += f"INNINGS: {self.innings}\n"
         repr_str += f"STRIKES: {self.strikes}\n"
         repr_str += f"OUTS: {self.outs}\n"
         repr_str += f"PLAYS: {self.plays}\n"
@@ -260,7 +259,7 @@ class BaseballSimulator:
     def __init__(self):
         self.state = GameState()
 
-    def step(self, dice_roll, render=False):
+    def step(self, dice_roll):
         """
         Description:
         Arguments:
@@ -270,8 +269,6 @@ class BaseballSimulator:
         executable_action = ActionMap.map_dice_roll_to_action(dice_roll)
         executable_action(self.state)
         self.state.plays += 1
-        if render:
-            print(self.state)
         return self.state, self.state.is_done
 
 
@@ -288,16 +285,19 @@ def render_plot(scores):
     py.plot(fig, filename="chart.html")
 
 
-def simulate_games(number_of_simulations):
+def simulate_games(number_of_simulations, render=False):
     final_scores = []
     final_outs = []
     final_plays = []
     for _ in range(number_of_simulations):
-        print(".", flush=True, end="")
+        if not render:
+            print(".", flush=True, end="")
         simulator = BaseballSimulator()
         while True:
             roll = dice()
             state, done = simulator.step(roll)
+            if render:
+                print(state)
             if done:
                 final_scores.append(state.score)
                 final_outs.append(state.outs)
@@ -309,7 +309,7 @@ def simulate_games(number_of_simulations):
 
 if __name__ == "__main__":
     n = 1000
-    scores, outs, plays = simulate_games(n)
+    scores, outs, plays = simulate_games(n, render=True)
     average_scores = compute_average(scores)
     average_outs = compute_average(outs)
     average_plays = compute_average(plays)
