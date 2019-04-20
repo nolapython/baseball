@@ -11,7 +11,7 @@ import sys
 import random
 import pytest
 
-# imported to changes to the correct directory for testing
+# Used to change to the correct directory to avoid import errors.
 FILEPATH = Path(__file__).parent.parent
 sys.path.insert(0, FILEPATH)
 
@@ -21,16 +21,14 @@ from baseball_simulator import Runner  # pylint: disable=wrong-import-position
 @pytest.fixture
 def runner_fixture():
     """
-    Description: Runner fixture.
-    Arguments:
-        None
-    Returns:
-        Runner Object
+    Runner fixture.
+    Returns: Runner Object
     """
     return Runner()
 
 
 def test_run_to_next_base(runner_fixture):
+    """Test the runner moves to the next base."""
     runner = runner_fixture
     assert runner.base == 0
     runner.run_to_next_base()
@@ -38,6 +36,7 @@ def test_run_to_next_base(runner_fixture):
 
 
 def test_has_scored(runner_fixture):
+    """Test after running to the next base 4 times The runner has scored."""
     runner = runner_fixture
     assert runner.has_scored == False
     runner.run_to_next_base()
