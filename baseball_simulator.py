@@ -98,7 +98,6 @@ class ActionMap:
         If the Runner has scored the Runner is removed from the field and the scores is increased.
         Args: GameState Object.
         """
-        # FIXME: EVERY THREE OUTS THE FIELD SHOULD BE CLEARED.
         scored = False
         state.strikes = 0
         new_runner = Runner()
@@ -227,6 +226,9 @@ class GameState:
         if len(self.field) > 0:
             self.field.popleft()
 
+    def clear_the_field(self):
+        self.field = deque()
+
     @property
     def is_done(self):
         """
@@ -236,6 +238,12 @@ class GameState:
         Returns:
         """
         if self.outs >= 54:
+            return True
+        return False
+
+    @property
+    def half_inning_over(self):
+        if self.outs % 3 == 0:
             return True
         return False
 
@@ -299,6 +307,10 @@ def simulate_games(number_of_simulations, render=False):
             state, done = simulator.step(roll)
             if render:
                 print(state)
+
+            if state.half_inning_over:
+                state.clear_the_field()
+
             if done:
                 final_scores.append(state.score)
                 final_outs.append(state.outs)
