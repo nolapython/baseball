@@ -13,5 +13,10 @@ TODO:
 Doc's
 Test's
 
+FIX:
+Strikes should be reset upon a player getting an out so
+strikes are not counted between players.
+create an out function.
+
 FEATURE IDEAS:
 Web frontend in flask.
