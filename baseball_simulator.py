@@ -123,6 +123,24 @@ class ActionMap:
             cls.single(state)
 
     @classmethod
+    def triple(cls, state):
+        """
+        Runs the single function three times simulating a triple.
+        Args: GameState Object.
+        """
+        for _ in range(3):
+            cls.single(state)
+
+    @classmethod
+    def home_run(cls, state):
+        """
+        Runs the single function four times simulating a home run.
+        Args: GameState Object.
+        """
+        for _ in range(4):
+            cls.single(state)
+
+    @classmethod
     def base_on_error(cls, state):
         """
         Runs the single function simulating a base on error.
@@ -189,24 +207,6 @@ class ActionMap:
         """
         state.outs += 2
         state.remove_runner_from_field_after_out()
-
-    @classmethod
-    def triple(cls, state):
-        """
-        Runs the single function three times simulating a triple.
-        Args: GameState Object.
-        """
-        for _ in range(3):
-            cls.single(state)
-
-    @classmethod
-    def home_run(cls, state):
-        """
-        Runs the single function four times simulating a home run.
-        Args: GameState Object.
-        """
-        for _ in range(4):
-            cls.single(state)
 
 
 class GameState:
