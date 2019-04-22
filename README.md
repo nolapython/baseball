@@ -14,10 +14,5 @@ Doc's
 Test's
 f-string messaging for game transcription. example f"{name} runs to first base."
 
-FIX:
-Strikes should be reset upon a player getting an out so
-strikes are not counted between players.
-create an out function.
-
 FEATURE IDEAS:
 Web frontend in flask.
