@@ -170,14 +170,21 @@ class ActionMap:
             state.outs += 1
 
     @classmethod
+    def out(cls, state):
+        """
+        A method for handling outs.
+        """
+        state.outs += 1
+        state.strikes = 0
+
+    @classmethod
     def foul_out(cls, state):
         """
         Simulates the player at bat fouling out.
         GameState.outs is increased by 1.
         Args: GameState Object
         """
-
-        state.outs += 1
+        cls.out(state)
 
     @classmethod
     def out_at_first(cls, state):
@@ -186,7 +193,7 @@ class ActionMap:
         GameState.outs is increased by 1.
         Args: GameState Object
         """
-        state.outs += 1
+        cls.out(state)
 
     @classmethod
     def fly_out(cls, state):
@@ -195,7 +202,7 @@ class ActionMap:
         GameState.outs is increased by 1.
         Args: GameState Object
         """
-        state.outs += 1
+        cls.out(state)
 
     @classmethod
     def double_play(cls, state):
@@ -205,7 +212,8 @@ class ActionMap:
         The last runner is removed from the field.
         Args: GameState Object
         """
-        state.outs += 2
+        for _ in range(2):
+            cls.out(state)
         state.remove_runner_from_field_after_out()
 
 
